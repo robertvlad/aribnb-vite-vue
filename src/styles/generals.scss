@@ -1,0 +1,10 @@
+@import "../../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
+@import '/node_modules/bootstrap/dist/css/bootstrap.css';
+@import "src/styles/partials/_mixins.scss";
+@import "src/styles/partials/_variables.scss";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
