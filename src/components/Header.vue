@@ -12,7 +12,6 @@ export default{
                     label: 'About Us',
                     routeName: 'about_us',
                 },
-                
             ]
         }
     },
@@ -34,19 +33,19 @@ export default{
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="http://127.0.0.1:8003/login">Login</a></li>
+                                    <li><a class="dropdown-item" href="http://127.0.0.1:8003/register">Register</a></li>
+                                </ul>
+                            </li>
                             <li class="nav-item" v-for="(item, index) in menuItems" :key="index">
                                 <router-link :to="{name: item.routeName}" class="nav-link">
                                     {{ item.label }}
                                 </router-link>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Login
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">User</a></li>
-                                    <li><a class="dropdown-item" href="#">Logout</a></li>
-                                </ul>
                             </li>
                         </ul>
                     </div>
