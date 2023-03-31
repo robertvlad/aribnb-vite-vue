@@ -22,7 +22,6 @@ export default{
             </div>
             <div class="card-title py-1 d-flex flex-column">
                 <h5>{{ apartment.title }}</h5>
-                
                 <em> 
                     <strong>Optionals: </strong> 
                     <span v-if="apartment.optionals.length > 0">

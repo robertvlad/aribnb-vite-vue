@@ -24,7 +24,7 @@ export default{
             <div class="container-fluid">
                 <div>
                     <a class="navbar-brand" href="#">
-                        <img src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c513.png" alt="logo" width="200">
+                        <img src="../../public/img/logo.png" alt="logo" width="200">
                     </a>
                 </div>
                 <div>
@@ -33,14 +33,10 @@ export default{
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul class="navbar-nav">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <li class="nav-item">
+                                <a class="nav-link" href="http://127.0.0.1:8000/admin" role="button" aria-expanded="false">
                                 <i class="fas fa-user"></i>
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="http://127.0.0.1:8003/login">Login</a></li>
-                                    <li><a class="dropdown-item" href="http://127.0.0.1:8003/register">Register</a></li>
-                                </ul>
                             </li>
                             <li class="nav-item" v-for="(item, index) in menuItems" :key="index">
                                 <router-link :to="{name: item.routeName}" class="nav-link">
@@ -56,6 +52,5 @@ export default{
 </template>
 
 <style lang="scss" scoped>
-
-   
+  
 </style>
