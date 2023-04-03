@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from './pages/HomePage.vue';
 import AboutUs from './pages/AboutUs.vue';
 import NotFound from './pages/NotFound.vue';
+import SingleApartment from './pages/SingleApartment.vue';
 // import ThankYou from './pages/ThankYou.vue';
-// import Contacts from './pages/Contacts.vue';
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -17,11 +17,11 @@ const router = createRouter({
             name: 'about_us',
             component: AboutUs,
         },
-        // {
-        //     path: '/Contatti',
-        //     name: 'Contacts',
-        //     component: Contacts
-        // },
+        {
+            path: '/homepage/:slug', //,il nome deve concidere con quello dato in api.php
+            name: 'single_apartment',
+            component: SingleApartment
+        },
         // {
         //     path: '/Thank-You',
         //     name: 'ThankYou',
@@ -29,7 +29,7 @@ const router = createRouter({
         // },
         {
             path: '/*',
-            name: 'NotFound',
+            name: 'not_found',
             component: NotFound
         },
 

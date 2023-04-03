@@ -11,9 +11,11 @@ export default {
     return {
         store,
         apartments: [],
+        searchQuery: '',
+        addresses: [],
         filterData: {
             address: '',
-            distance: 20,
+            distance: 20000,
             bed_n: 0,
             room_n: 0,
             optionals: [],
@@ -41,6 +43,23 @@ export default {
         console.error(error);
       }
     },
+    async autoComplete() {
+        if (this.filterData.address.length > 3) {
+          try {
+            const response = await axios.get(`https://api.tomtom.com/search/2/search/${this.filterData.address}.json?key=${'186r2iPLXxGSFMemhylqjC36urDbgOV2'}`);
+            this.addresses = response.data.results;
+          } catch (error) {
+            console.error(error);
+          }
+        } else {
+          this.addresses = [];
+        }
+      },
+      selectAddress(address) {
+        this.filterData.address = address.address.freeformAddress;
+        this.addresses = [];
+      },
+    
   },
 };
 </script>
@@ -50,36 +69,54 @@ export default {
     <div class="container-jumbo">
         <div class="jumbo-title">
             <div class="col d-flex align-items-center">
+            </div>
+            <div class="col d-flex justify-content-center align-items-center flex-column">
+                <div>
+                    <img src="../../public/img/BOOLBNB-removebg-ok.png" width="450" alt="logo">
+                </div>
+                <div class="my-3">
+                    <h3>Travel with emotion & experience</h3>
+                </div>
                 <div class="offcanvas-container">
                     <a data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
                         <button class="btn-boolBnB">
-                            <img src="../../public/img/airbnb.svg" alt="logo" height="35" width="35">
-                            <span>BOOLBNB</span>
+                            <span>SEARCH</span>
                         </button>
                     </a>
                     <div class="offcanvas offcanvas-start" style="width: 35%;" tabindex="3" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                         <div class="offcanvas-header">
                             <div class="d-flex">
                                 <a href="#">
-                                    <img src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c513.png" alt="logo" width="100">
+                                    <img src="../../public/img/BOOLBNB-removebg-ok.png" alt="logo" width="200">
                                 </a>
                             </div>
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
-
+    
                             <form @submit.prevent="submitData">
                                 
-
-                                <div>
+                                <div class="form-group">
+                                    <label for="filterAddress">Address</label>
+                                    <input type="text" class="form-control" id="filterAddress" v-model="filterData.address" placeholder="Inserisci l'indirizzo" @keyup="autoComplete">
+                                    <div v-if="addresses.length > 0">
+                                        <ul class="list-group">
+                                        <li class="list-group-item" v-for="(address, index) in addresses" :key="index" @click="selectAddress(address)"> 
+                                            {{ address.address.freeformAddress }}
+                                        </li>
+                                        </ul>
+                                    </div>
+                                </div>
+    
+                                <!-- <div>
                                     <h4 class="mb-3">Search your appartament</h4>
                                     <div class="container-input mb-3">
-                                        <input type="text" placeholder="Roma, Viale del Popolo, 0000" name="text" class="input" v-model="filterData.address">
+                                        <input type="text" placeholder="Roma, Viale del Popolo, 0000" name="text" class="input" id="searchbar" @keyup="autoComplete">
                                         <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z" fill-rule="evenodd"></path>
                                         </svg>
                                     </div>
-                                </div>
+                                </div>  -->
                                 <div>
                                     <div class="d-flex align-items-center mb-3">
                                         <i class="fas fa-sliders"></i>
@@ -112,13 +149,13 @@ export default {
                                         <div id="form-wrapper">
                                             <form action="/p/quote.php" method="GET">
                                                 <div id="debt-amount-slider">
-                                                    <input type="radio" v-model="filterData.distance" name="debt-amount" id="1" value="5" required>
+                                                    <input type="radio" v-model="filterData.distance" name="debt-amount" id="1" value="5000" required>
                                                     <label for="1" data-debt-amount="5km"></label>
-                                                    <input type="radio" v-model="filterData.distance" name="debt-amount" id="2" value="10" required>
+                                                    <input type="radio" v-model="filterData.distance" name="debt-amount" id="2" value="10000" required>
                                                     <label for="2" data-debt-amount="10km"></label>
-                                                    <input type="radio" v-model="filterData.distance" name="debt-amount" id="3" value="20" required>
+                                                    <input type="radio" v-model="filterData.distance" name="debt-amount" id="3" value="20000" required>
                                                     <label for="3" data-debt-amount="20km"></label>
-                                                    <input type="radio" v-model="filterData.distance" name="debt-amount" id="4" value="30" required>
+                                                    <input type="radio" v-model="filterData.distance" name="debt-amount" id="4" value="30000" required>
                                                     <label for="4" data-debt-amount="30km"></label>
                                                     <input type="radio" v-model="filterData.distance" name="debt-amount" id="5" value="40000" required>
                                                     <label for="5" data-debt-amount="40km"></label>
@@ -127,7 +164,7 @@ export default {
                                             </form>
                                         </div>
                                     </div>
-
+    
                                     <div>
                                         <h5>Optionals</h5>
                                         <label class="container-check">Garden
@@ -162,14 +199,6 @@ export default {
                     </div>
                 </div>
             </div>
-            <div class="col d-flex justify-content-center align-items-center flex-column text-center">
-                <div>
-                    <img src="../../public/img/logo.png" width="400" alt="logo">
-                </div>
-                <div>
-                    <h3>Travel with emotion & experience</h3>
-                </div>
-            </div>
         </div>
         <div id='footer-navmenu'>
             <svg class='wave-animation' preserveAspectRatio='none' viewBox='0 24 150 28' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
@@ -198,18 +227,14 @@ export default {
     z-index: 1;
 
     .jumbo-title{
+        width: 100%;
         position: absolute;
         z-index: 2;
         top: 80px;
-        left: 540px;
     }
 
     .offcanvas-container{
-        position: absolute;
         z-index: 2;
-        top: 200px;
-        left: 130px;
-
         // OPTIONALS
 
         .container-check {
@@ -251,7 +276,7 @@ export default {
 
         /* When the checkbox is checked, add a blue background */
         .container-check input:checked ~ .checkmark {
-        background-color: #2196F3;
+        background-color: rgb(255, 56, 92);
         }
 
         /* Create the checkmark/indicator (hidden when not checked) */

@@ -23,9 +23,9 @@ export default{
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
                 <div>
-                    <a class="navbar-brand" href="#">
-                        <img src="../../public/img/logo.png" alt="logo" width="200">
-                    </a>
+                    <router-link class="navbar-brand" :to="{ name: 'homepage'}">
+                        <img src="../../public/img/BOOLBNB-removebg-ok.png" alt="logo" width="160">
+                    </router-link>
                 </div>
                 <div>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,5 +52,11 @@ export default{
 </template>
 
 <style lang="scss" scoped>
-  
+.navbar .nav-link{
+    color: black;
+
+    &:hover{
+        color: rgb(255, 56, 92);
+    }
+}
 </style>
