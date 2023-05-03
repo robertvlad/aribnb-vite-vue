@@ -27,24 +27,29 @@ export default {
       try {
         // gestione della risposta
         const { data } = await axios.get(`${store.baseUrl}/api/search`, {
-          params: {
-            address: this.filterData.address,
-            distance: this.filterData.distance,
-            bed_n: this.filterData.bed_n,
-            room_n: this.filterData.room_n,
-            optionals: this.filterData.optionals,
-          },
+            params: {
+                address: this.filterData.address,
+                distance: this.filterData.distance,
+                bed_n: this.filterData.bed_n,
+                room_n: this.filterData.room_n,
+                optionals: this.filterData.optionals,
+            },
         });
-
-        this.apartments = data.apartments;
+        
+        this.apartments = data;
+        store.filteredApartments = data;
+        store.filterFlag = true;
+        console.log(store.filteredApartments)
+        
         console.log(data);
+        
       } catch (error) {
         // gestione dell'errore
         console.error(error);
       }
     },
     async autoComplete() {
-        if (this.filterData.address.length > 3) {
+        if (this.filterData.address.length > 1) {
           try {
             const response = await axios.get(`https://api.tomtom.com/search/2/search/${this.filterData.address}.json?key=${'186r2iPLXxGSFMemhylqjC36urDbgOV2'}`);
             this.addresses = response.data.results;
@@ -72,10 +77,10 @@ export default {
             </div>
             <div class="col d-flex justify-content-center align-items-center flex-column">
                 <div>
-                    <img src="../../public/img/BOOLBNB-removebg-ok.png" width="450" alt="logo">
+                    <img class="logo" src="../../public/img/BOOLBNB-removebg-ok.png" width="450" alt="logo">
                 </div>
                 <div class="my-3">
-                    <h3>Travel with emotion & experience</h3>
+                    <h3 class="text-center">Travel with emotion & experience</h3>
                 </div>
                 <div class="offcanvas-container">
                     <a data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
@@ -83,7 +88,7 @@ export default {
                             <span>SEARCH</span>
                         </button>
                     </a>
-                    <div class="offcanvas offcanvas-start" style="width: 35%;" tabindex="3" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                    <div class="offcanvas offcanvas-start" style="width: 450px;" tabindex="3" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                         <div class="offcanvas-header">
                             <div class="d-flex">
                                 <a href="#">
@@ -93,59 +98,57 @@ export default {
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
-    
                             <form @submit.prevent="submitData">
-                                
                                 <div class="form-group">
-                                    <label for="filterAddress">Address</label>
-                                    <input type="text" class="form-control" id="filterAddress" v-model="filterData.address" placeholder="Inserisci l'indirizzo" @keyup="autoComplete">
-                                    <div v-if="addresses.length > 0">
-                                        <ul class="list-group">
-                                        <li class="list-group-item" v-for="(address, index) in addresses" :key="index" @click="selectAddress(address)"> 
-                                            {{ address.address.freeformAddress }}
-                                        </li>
-                                        </ul>
-                                    </div>
-                                </div>
-    
-                                <!-- <div>
-                                    <h4 class="mb-3">Search your appartament</h4>
+                                    <label for="filterAddress">
+                                        <h3 class="mb-3">Search your apartament</h3>
+                                    </label>
                                     <div class="container-input mb-3">
-                                        <input type="text" placeholder="Roma, Viale del Popolo, 0000" name="text" class="input" id="searchbar" @keyup="autoComplete">
+                                        <input type="text" class="form-control input" id="filterAddress" v-model="filterData.address" placeholder="Write adress" @keyup="autoComplete">
                                         <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z" fill-rule="evenodd"></path>
                                         </svg>
-                                    </div>
-                                </div>  -->
+                                        <div v-if="addresses.length > 0">
+                                            <ul class="list-group">
+                                                <li class="list-group-item" v-for="(address, index) in addresses" :key="index" @click="selectAddress(address)"> 
+                                                    {{ address.address.freeformAddress }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>  
+                                </div>
+                                <hr class="my-4">
                                 <div>
                                     <div class="d-flex align-items-center mb-3">
                                         <i class="fas fa-sliders"></i>
-                                        <h4 class="mb-0">Filter</h4>
+                                        <h3 class="mb-0">Filter</h3>
+                                    </div>
+                                    <div class="d-flex my-4">
+                                        <div class="me-4">
+                                            <h5 class="mb-3">Room Number</h5>
+                                            <select name="" id="" v-model="filterData.room_n">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6+</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-3">Bed Number</h5>
+                                            <select name="" id="" v-model="filterData.bed_n">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6+</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div>
-                                        <h5>Room Number</h5>
-                                        <select name="" id="" v-model="filterData.room_n">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6+</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <h5>Bed Number</h5>
-                                        <select name="" id="" v-model="filterData.bed_n">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6+</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <h5>KM</h5>
+                                        <h5>Kilometers</h5>
                                         <div id="form-wrapper">
                                             <form action="/p/quote.php" method="GET">
                                                 <div id="debt-amount-slider">
@@ -164,36 +167,41 @@ export default {
                                             </form>
                                         </div>
                                     </div>
-    
                                     <div>
-                                        <h5>Optionals</h5>
-                                        <label class="container-check">Garden
+                                        <h5 class="mb-3">Optionals</h5>
+                                        <label class="container-check text-secondary fs-5">Garden
                                             <input type="checkbox" v-model="filterData.optionals" checked="checked" value="Garden">
                                             <span class="checkmark"></span>
                                         </label>
-                                        <label class="container-check">Wifi
+                                        <label class="container-check text-secondary fs-5">Wifi
                                             <input type="checkbox" v-model="filterData.optionals" value="WiFi">
                                             <span class="checkmark"></span>
                                         </label>
-                                        <label class="container-check">Car Space
+                                        <label class="container-check text-secondary fs-5">Car Space
                                             <input type="checkbox" v-model="filterData.optionals" value="Car Space">
                                             <span class="checkmark"></span>
                                         </label>
-                                        <label class="container-check">Kitchen
+                                        <label class="container-check text-secondary fs-5">Kitchen
                                             <input type="checkbox" v-model="filterData.optionals" value="Kitchen">
                                             <span class="checkmark"></span>
                                         </label>
-                                        <label class="container-check">Sea View
+                                        <label class="container-check text-secondary fs-5">Sea View
                                             <input type="checkbox" v-model="filterData.optionals" value="Sea View">
                                             <span class="checkmark"></span>
                                         </label>
-                                        <label class="container-check">Pool
+                                        <label class="container-check text-secondary fs-5">Pool
                                             <input type="checkbox" v-model="filterData.optionals" value="Pool">
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
                                 </div>
-                                <button type="button" @click="this.submitData">Search</button>
+                                <div class="mt-4">
+                                    <button class="cssbuttons-io-button" type="button" @click="this.submitData" data-bs-dismiss="offcanvas" aria-label="Close">Search
+                                        <div class="icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"></path></svg>
+                                        </div>
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -216,6 +224,7 @@ export default {
 </template>
 
 <style lang="scss">
+@use '../styles/generals.scss' as *;
 
 // JUMBOTRON
 
@@ -234,7 +243,8 @@ export default {
     }
 
     .offcanvas-container{
-        z-index: 2;
+        z-index: 3;
+        
         // OPTIONALS
 
         .container-check {
@@ -652,5 +662,10 @@ export default {
         margin-right: 10px;
     }
   
+}
+@media screen and (max-width: 576px){
+    .logo {
+        width: 350px;
+    }    
 }
 </style>

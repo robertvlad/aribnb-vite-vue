@@ -52,6 +52,12 @@ export default{
 </template>
 
 <style lang="scss" scoped>
+
+header{
+    position: sticky;
+    top: 0;
+    z-index: 3;
+}
 .navbar .nav-link{
     color: black;
 

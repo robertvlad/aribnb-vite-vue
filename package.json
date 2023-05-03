@@ -1,5 +1,5 @@
 {
-  "name": "airbnb-vite-vue",
+  "name": "vite-boolbnb",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,12 +12,14 @@
     "@fortawesome/fontawesome-free": "^6.4.0",
     "axios": "^1.3.4",
     "bootstrap": "^5.2.3",
+    "ol": "^7.3.0",
     "vue": "^3.2.47",
     "vue-meta": "^2.4.0",
     "vue-router": "^4.1.6",
     "vue-slick-carousel": "^1.0.6"
   },
   "devDependencies": {
+    "@types/ol": "^7.0.0",
     "@vitejs/plugin-vue": "^4.1.0",
     "sass": "^1.60.0",
     "vite": "^4.2.0"
